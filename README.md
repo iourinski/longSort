@@ -12,9 +12,11 @@ this generates a "fat jar" in the project target folder, you can then run the so
 *\$ java -cp target/scala-2.12/joom-assembly-0.1.jar joom.longsort.runners.LongFileSorter src/main/resources/bible.txt reverse fastStreaming*
 
 where 
+
 -- *src/main/resources/bible.txt* is path to file you want to sort
  
 -- *reverse* is a type of sort you want to do (descending with distinguishing between upper/lower cases)
+
 -- *fastStreaming* type of sorter used (see explanations of algorithms below)
 
 You can also run tests by just typing:
@@ -50,8 +52,11 @@ There is a script that generates text files, class TextGenerator, it can be run 
 *\$ java -cp target/scala-2.12/joom-assembly-0.1.jar joom.longsort.runners.LongFileSorter bible.txt 100000 /tmp/rnd_bible.txt*
 
 where
+
 -- *bible.txt* is the text file that is used for dictionary building,
+
 -- *1000000* number of lines in the generated file 
+
 -- */tmp/rnd_bible.txt* path to resulting file.
 
 The script DOES not generate meaningfult texts, it generates random sequences of 0 to 15 random words.
