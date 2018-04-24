@@ -66,3 +66,6 @@ where *bible.txt* is the text file that is used for dictionary building,
 *1000000* number of lines in the generated file and  */tmp/rnd_bible.txt* path to resulting file.
 The script DOES not generate meaningfult texts, it generated random sequences of 0 to 15 random words.
 
+# tests
+
+Tests can be used to see how different sorters can be used
