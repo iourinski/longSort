@@ -1,4 +1,4 @@
-package joom.longsort
+package joom.longsort.sorters
 
 trait Sorter {
   def sortLongFile(): Unit

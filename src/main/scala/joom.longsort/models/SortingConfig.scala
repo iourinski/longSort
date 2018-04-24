@@ -1,4 +1,5 @@
-package joom.longsort
+package joom.longsort.models
+
 import com.typesafe.config._
 
 case class SortingConfig(

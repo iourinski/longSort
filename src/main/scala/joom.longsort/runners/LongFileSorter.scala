@@ -2,8 +2,9 @@ package joom.longsort.runners
 
 import java.io.{File, PrintWriter}
 
-import joom.longsort.local.{LocalSorter, StreamSorter}
-import joom.longsort.{Sorter, SortingConfig}
+import joom.longsort.models.SortingConfig
+import joom.longsort.sorters.{FastStreamSorter, LocalSorter, Sorter, StreamSorter}
+import joom.longsort.utils.SortFunctions
 
 import scala.io.Source
 
@@ -20,12 +21,12 @@ object LongFileSorter extends App {
 
   val sortingConfig = SortingConfig.getConfig
   val sortFunction: (String, String) => Boolean = args(1) match {
-    case "reverseNoCase" => (x, y) => x.trim.toLowerCase > y.trim.toLowerCase
-    case "reverse" => (x, y) => x.trim > y.trim
-    case "ascendingNoCase" => (x, y) => x.trim.toLowerCase < y.trim.toLowerCase
-    case "ascending" => (x, y) => x.trim < y.trim
-    case "length" => (x, y) => x.length < y.length
-    case _ => (x, y) => x.trim.toLowerCase < y.trim.toLowerCase
+    case "reverseNoCase" => SortFunctions.iDesc
+    case "reverse" => SortFunctions.desc
+    case "ascendingNoCase" => SortFunctions.iAsc
+    case "ascending" => SortFunctions.asc
+    case "length" => SortFunctions.byLength
+    case _ => SortFunctions.asc
   }
   val lineCleaner: String => String = _.trim
 
@@ -46,6 +47,19 @@ object LongFileSorter extends App {
       }
       streamSorter.sortLongFile()
       streamSorter
+    case "fastStream" =>
+      val fastStreamSorter = new FastStreamSorter (
+        id = rawFile.getName,
+        sortingFunction = sortFunction,
+        lineCleaner = lineCleaner,
+        config = sortingConfig
+      )
+      val reader = Source.fromFile (rawFile.getAbsoluteFile, sortingConfig.textEncoding).getLines ()
+      while (reader.hasNext) {
+        fastStreamSorter.processLine (reader.next ())
+      }
+      fastStreamSorter.sortLongFile()
+      fastStreamSorter
     case _ =>
       val localSorter = new LocalSorter (
         id = rawFile.getName,

@@ -1,8 +1,9 @@
-package joom.longsort.local
+package joom.longsort.sorters
 
 import java.io.{File, PrintWriter}
 
-import joom.longsort.{Sorter, SortingConfig}
+import joom.longsort.mergers.Merger
+import joom.longsort.models.{PartitionInfo, SortingConfig}
 
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
@@ -18,7 +19,7 @@ class StreamSorter(
   private var partitionNumber = 0
   private val ts = System.currentTimeMillis()
 
-  private var partitions = ListBuffer[PartitionInfo](getPartitionNames(0))
+  protected var partitions = ListBuffer[PartitionInfo](getPartitionNames(0))
   private var partitionWriter = new PrintWriter(new File(partitions.last.rawFileName))
 
   private lazy val merger = new Merger(sortingFunction, partitions.toList, config.textEncoding)

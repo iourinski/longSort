@@ -1,17 +1,17 @@
-package joom.longsort.local
+package joom.longsort.sorters
 
 import java.io.{File, PrintWriter}
 
-import joom.longsort.{Sorter, SortingConfig}
+import joom.longsort.mergers.Merger
+import joom.longsort.models.{PartitionInfo, SortingConfig}
 
 import scala.io.Source
 
-case class PartitionInfo(rawFileName: String, sortFileName: String)
 
 class LocalSorter (
   id: String,
   filePath: String,
-  lineCleaner: String => String = _.trim,
+  lineCleaner: String => String,
   sortingFunction: (String, String) => Boolean = (a, b) => a < b,
   config: SortingConfig
 ) extends Sorter {
